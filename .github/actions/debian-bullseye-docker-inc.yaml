@@ -1,0 +1,31 @@
+name: Docker Info Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docker-info:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: debian:bullseye
+        privileged: true
+        options: --entrypoint ""
+        command: ["dockerd-entrypoint.sh"]
+        ports:
+          - 2375:2375
+
+    steps:
+      - name: Install Docker CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-ce-cli
+
+      - name: Set Docker host
+        run: echo "DOCKER_HOST=tcp://localhost:2375" >> $GITHUB_ENV
+
+      - name: Check Docker Info
+        run: docker info
+
+      - name: Check Docker Compose Version
+        run: docker compose version
