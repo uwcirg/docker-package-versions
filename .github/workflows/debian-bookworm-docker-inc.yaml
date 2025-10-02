@@ -7,7 +7,7 @@ jobs:
   docker-info:
     runs-on: ubuntu-latest
     container:
-      image: debian:11
+      image: debian:12
 
     steps:
       - name: Update apt and install dependencies
